@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'docker_agent'  // Verwendet den Agenten mit dem Namen 'docker-agent'
+        label 'docker_agent'  // Verwendet den Agenten mit dem Namen 'docker_agent'
     }
 
     stages {
