@@ -1,0 +1,44 @@
+pipeline {
+    agent {
+        node {
+            label 'docker-agent'
+        }
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'make build'
+            }
+        }
+        stage('Testing file') {
+            steps {
+                script {
+                    def fileExists = fileExists('app.js')
+                    if (!fileExists) {
+                        error("app.js Datei fehlt!")
+                    }
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh 'make test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make deploy'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'make clean'
+        }
+    }
+}
