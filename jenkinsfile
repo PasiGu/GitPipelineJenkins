@@ -1,6 +1,7 @@
 pipeline {
     agent {
-        node {
+        docker {
+            image 'node:14'  // Verwendung des offiziellen Node.js-Images
             label 'docker-agent'
         }
     }
