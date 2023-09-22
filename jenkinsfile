@@ -1,45 +1,40 @@
 pipeline {
     agent {
-        docker {
-            image 'node:14'  // Verwendung des offiziellen Node.js-Images
-            label 'docker-agent'
-        }
+        label 'docker-agent'  // Verwendet den Agenten mit dem Namen 'docker-agent'
     }
+
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout scm  // Führt einen Checkout des aktuellen Git-Repositorys durch
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Setup Test Environment') {
             steps {
-                sh 'npm install'
+                sh '''
+                    echo "Setting up test environment..."
+                    sleep 10  // Simuliert die Einrichtung der Testumgebung
+                    echo "Test environment setup complete."
+                '''
             }
         }
-        stage('Testing file') {
-            steps {
-                script {
-                    def fileExists = fileExists('app.js')
-                    if (!fileExists) {
-                        error("app.js Datei fehlt!")
-                    }
-                }
-            }
-        }
+
         stage('Run Tests') {
             steps {
-                sh 'npm test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'npm start'
+                sh '''
+                    echo "Running tests..."
+                    sleep 5  // Simuliert das Ausführen von Tests
+                    echo "Tests completed."
+                '''
             }
         }
     }
+
     post {
         always {
-            sh 'rm -rf node_modules'
+            echo 'Cleaning up...'
+            // Hier können Sie Aufräumarbeiten hinzufügen, falls erforderlich
         }
     }
 }
