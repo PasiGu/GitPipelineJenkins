@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Setting up test environment..."
-                    sleep 10  # Simuliert die Einrichtung der Testumgebung
+                    sleep 10 
                     echo "Test environment setup complete."
                 '''
             }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Running tests..."
-                    sleep 5  # Simuliert das Ausführen von Tests
+                    sleep 5 
                     echo "Tests completed."
                 '''
             }
@@ -34,7 +34,6 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            # Hier können Sie Aufräumarbeiten hinzufügen, falls erforderlich
         }
     }
 }
