@@ -10,9 +10,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                sh 'make build'
+                sh 'npm install'
             }
         }
         stage('Testing file') {
@@ -27,18 +27,18 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'make test'
+                sh 'npm test'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'make deploy'
+                sh 'npm start'
             }
         }
     }
     post {
         always {
-            sh 'make clean'
+            sh 'rm -rf node_modules'
         }
     }
 }
