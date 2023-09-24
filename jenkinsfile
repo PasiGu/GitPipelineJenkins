@@ -1,39 +1,55 @@
+// Definieren Sie die gesamte Pipeline
 pipeline {
-    agent {
-        label 'docker_agent'  // Verwendet den Agenten mit dem Namen 'docker_agent'
+    // Legen Sie den Agenten fest, auf dem die Pipeline ausgeführt werden soll.
+    // "any" bedeutet, dass sie auf jedem verfügbaren Agenten oder dem Master ausgeführt werden kann.
+    agent any
+
+    // Legen Sie die Trigger für die Pipeline fest.
+    triggers {
+        // Pollen Sie das Source Code Management (z.B. Git) alle 2 Minuten auf Änderungen.
+        pollSCM('H/2 * * * *')
     }
 
+    // Definieren Sie die Stufen der Pipeline.
     stages {
+        // Eine Stufe zum Auschecken des Codes aus dem Repository.
         stage('Checkout') {
             steps {
-                checkout scm  // Führt einen Checkout des aktuellen Git-Repositorys durch
+                checkout scm
             }
         }
 
-        stage('Setup Test Environment') {
+        // Eine Stufe zum Ausgeben der Version 1 in der Konsole.
+        stage('Print Version 1') {
             steps {
-                sh '''
-                    echo "Setting up test environment..."
-                    sleep 10 
-                    echo "Test environment setup complete."
-                '''
+                echo 'Version 1'
             }
         }
 
+        // Eine Stufe zum Ausführen von Tests.
+        // (Dies ist ein Platzhalter und sollte basierend auf den tatsächlichen Testanforderungen angepasst werden.)
         stage('Run Tests') {
             steps {
-                sh '''
-                    echo "Running tests..."
-                    sleep 5 
-                    echo "Tests completed."
-                '''
+                // Beispiel: Für ein JavaScript-Projekt könnten Sie "npm test" verwenden.
+                // Für ein Java-Projekt mit Maven könnten Sie "mvn test" verwenden.
+                // Aktuell gibt es nur einen Platzhalter-Echo-Befehl.
+                echo 'Tests ausgeführt'
             }
         }
-    }
 
-    post {
-        always {
-            echo 'Cleaning up...'
+        // Eine Stufe zum Ausgeben der Version 2 in der Konsole.
+        stage('Print Version 2') {
+            steps {
+                echo 'Version 2'
+            }
+        }
+
+        // Eine Stufe, die absichtlich einen Fehler simuliert.
+        stage('Simulate an Error in Stage 3') {
+            steps {
+                // Der Befehl "exit 1" wird die Pipeline mit einem Fehler beenden.
+                sh 'exit 1'
+            }
         }
     }
 }
